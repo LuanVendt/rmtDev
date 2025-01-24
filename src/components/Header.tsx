@@ -1,16 +1,7 @@
-import BookmarksButton from "./BookmarksButton";
-import Logo from "./Logo";
-import SearchForm from "./SearchForm";
+export function Header({ children }) {
+  return <div className="header">{children}</div>;
+}
 
-export default function Header() {
-  return (
-    <header className="header">
-      <div className="header__top">
-        <Logo />
-        <BookmarksButton />
-      </div>
-
-      <SearchForm />
-    </header>
-  );
+export function HeaderTop({ children }) {
+  return <div className="header__top">{children}</div>;
 }
