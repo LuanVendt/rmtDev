@@ -1,20 +1,9 @@
-export default function SearchForm({ searchText, setSearchText }) {
-  // const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchText(e.target.value);
-  //   const response = await fetch(
-  //     "https://bytegrad.com/course-assets/projects/rmtdev/api/data"
-  //   );
+import { SearchFormProps } from "../lib/types";
 
-  //   if (!response.ok) {
-  //     console.error("Failed to fetch data");
-  //     return;
-  //   }
-
-  //   const data = await response.json();
-
-  //   console.log(data.jobItems.length);
-  // };
-
+export default function SearchForm({
+  searchText,
+  setSearchText,
+}: SearchFormProps) {
   return (
     <form
       onSubmit={(e) => {

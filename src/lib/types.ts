@@ -23,3 +23,8 @@ export type SidebarProps = {
 export type ContainerProps = {
   jobItems: JobItem[];
 };
+
+export type SearchFormProps = {
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+};
