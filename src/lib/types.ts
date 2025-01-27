@@ -13,6 +13,7 @@ export type JobListItemProps = {
 
 export type JobListProps = {
   jobItems: JobItem[];
+  isLoading: boolean;
 };
 
 export type SidebarProps = {
