@@ -16,7 +16,7 @@ import SortingControls from "./SortingControls";
 
 function App() {
   const [searchText, setSearchText] = useState("");
-  const { jobItems, isLoading } = useJobItems(searchText);
+  const { jobItems, isLoading, totalNumberOfResults } = useJobItems(searchText);
 
   return (
     <>
@@ -34,7 +34,7 @@ function App() {
       <Container>
         <Sidebar>
           <SidebarTop>
-            <ResultsCount count={jobItems.length} />
+            <ResultsCount count={totalNumberOfResults} />
             <SortingControls />
           </SidebarTop>
 
