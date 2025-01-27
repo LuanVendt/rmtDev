@@ -80,3 +80,17 @@ export function useActiveJobData() {
 
   return { jobData, isJobDataLoading } as const;
 }
+
+export function useDebounce<T>(value: T, delay = 1000) {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(timeoutId);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
