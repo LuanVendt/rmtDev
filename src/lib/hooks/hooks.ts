@@ -46,7 +46,7 @@ export function useJobItems(searchText: string) {
     fetchData();
   }, [searchText]);
 
-  return { jobItems: jobItemsSliced, isLoading, totalNumberOfResults } as const;
+  return { jobItemsSliced, isLoading, totalNumberOfResults } as const;
 }
 
 export function useJobData(activeId: number | null) {
