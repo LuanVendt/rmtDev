@@ -1,25 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
-import { JobData, JobItem } from "../types";
-
-export function useActiveId() {
-  const [activeId, setActiveId] = useState<number | null>(null);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const id = +window.location.hash.slice(1);
-
-      setActiveId(id);
-    };
-    handleHashChange();
-
-    window.addEventListener("hashchange", handleHashChange);
-
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
-
-  return activeId;
-}
+import { JobItem } from "../types";
 
 export function useJobItems(searchText: string) {
   const [jobItems, setJobItems] = useState<JobItem[]>([]);
@@ -50,28 +32,44 @@ export function useJobItems(searchText: string) {
 }
 
 export function useJobData(activeId: number | null) {
-  const [jobData, setJobData] = useState<JobData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!activeId) return;
-
-      setIsLoading(true);
-
+  const { data, isLoading } = useQuery(
+    ["job-item", activeId],
+    async () => {
       const response = await fetch(`${BASE_URL}/${activeId}`);
 
       const data = await response.json();
 
-      setIsLoading(false);
+      return data.jobItem;
+    },
+    {
+      staleTime: 1000 * 60 * 60, // 1 hour
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!activeId,
+      onError: () => {},
+    }
+  );
 
-      setJobData(data.jobItem);
+  return { jobData: data, isJobDataLoading: isLoading } as const;
+}
+
+export function useActiveId() {
+  const [activeId, setActiveId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const id = +window.location.hash.slice(1);
+
+      setActiveId(id);
     };
+    handleHashChange();
 
-    fetchData();
-  }, [activeId]);
+    window.addEventListener("hashchange", handleHashChange);
 
-  return { jobData, isJobDataLoading: isLoading } as const;
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  return activeId;
 }
 
 export function useActiveJobData() {
