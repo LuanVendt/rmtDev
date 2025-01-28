@@ -1,7 +1,6 @@
 import { useActiveJobData } from "../lib/hooks/hooks";
 import {
   JobImageProps,
-  JobInfoProps,
   JobMetaInfoProps,
   JobQualificationsProps,
   JobReviewsProps,
@@ -83,7 +82,7 @@ function ApplyButton() {
   );
 }
 
-function JobInfo({ children }: JobInfoProps) {
+function JobInfo({ children }: { children: React.ReactNode }) {
   return <section className="job-info">{children}</section>;
 }
 

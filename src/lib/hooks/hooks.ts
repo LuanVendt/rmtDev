@@ -113,9 +113,13 @@ export function usePagination() {
       } else if (direction === "previous" && prev > 1) {
         return prev - 1;
       }
-      return prev; // Retorna o estado atual se não for possível mudar a página
+      return prev;
     });
   };
 
-  return { currentPage, onChangePage: handleChangePage } as const;
+  return {
+    currentPage,
+    onChangePage: handleChangePage,
+    setCurrentPage,
+  } as const;
 }

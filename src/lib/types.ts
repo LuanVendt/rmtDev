@@ -56,10 +56,6 @@ export type JobQualificationsProps = JobDataProps;
 export type JobReviewsProps = JobDataProps;
 export type JobImageProps = JobDataProps;
 
-export type JobInfoProps = {
-  children: React.ReactNode;
-};
-
 export type PaginateDirection = "next" | "previous";
 
 export type PaginationButtonProps = {
@@ -67,4 +63,11 @@ export type PaginationButtonProps = {
   currentPage: number;
   totalPages: number;
   onChangePage: (direction: PaginateDirection) => void;
+};
+
+export type SortOptions = "relevant" | "recent";
+
+export type SortingControlsProps = {
+  onChangeSortBy: (newSort: SortOptions) => void;
+  sortBy: SortOptions;
 };

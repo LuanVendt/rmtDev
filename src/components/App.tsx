@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebounce, useJobItems, usePagination } from "../lib/hooks/hooks";
-import { getPaginationInfo } from "../lib/utils";
+import { SortOptions } from "../lib/types";
+import { getPaginationInfo, getSortInfo } from "../lib/utils";
 import Background from "./Background";
 import BookmarksButton from "./BookmarksButton";
 import Container from "./Container";
@@ -17,18 +18,26 @@ import { Sidebar, SidebarTop } from "./Sidebar";
 import SortingControls from "./SortingControls";
 
 function App() {
-  console.log(`App componente rendereda`);
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 500);
   const { jobItems, isLoading } = useJobItems(debouncedSearchText);
-  const { currentPage, onChangePage } = usePagination();
+  const { currentPage, onChangePage, setCurrentPage } = usePagination();
 
   const totalNumberOfResults = jobItems?.length || 0;
+
+  const [sortBy, setSortBy] = useState<SortOptions>("relevant");
+  const { jobItemsSorted, handleChangeSortBy } = getSortInfo(
+    sortBy,
+    setSortBy,
+    jobItems,
+    setCurrentPage
+  );
 
   const { totalPages, jobItemsSliced } = getPaginationInfo(
     jobItems,
     totalNumberOfResults,
-    currentPage
+    currentPage,
+    jobItemsSorted
   );
 
   return (
@@ -48,7 +57,10 @@ function App() {
         <Sidebar>
           <SidebarTop>
             <ResultsCount count={totalNumberOfResults} />
-            <SortingControls />
+            <SortingControls
+              onChangeSortBy={handleChangeSortBy}
+              sortBy={sortBy}
+            />
           </SidebarTop>
 
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
