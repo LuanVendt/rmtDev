@@ -20,7 +20,7 @@ import PaginationControls, { PagiationButton } from "./PaginationControls";
 import ResultsCount from "./ResultsCount";
 import SearchForm from "./SearchForm";
 import { Sidebar, SidebarTop } from "./Sidebar";
-import SortingControls, { SortingButton } from "./SortingControls";
+import SortingControls from "./SortingControls";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -63,18 +63,10 @@ function App() {
           <SidebarTop>
             <ResultsCount count={totalNumberOfResults} />
 
-            <SortingControls>
-              <SortingButton
-                sortBy="relevant"
-                currentSortBy={sortBy}
-                onChangeSortBy={handleChangeSortBy}
-              />
-              <SortingButton
-                sortBy="recent"
-                currentSortBy={sortBy}
-                onChangeSortBy={handleChangeSortBy}
-              />
-            </SortingControls>
+            <SortingControls
+              sortBy={sortBy}
+              onChangeSortBy={handleChangeSortBy}
+            />
           </SidebarTop>
 
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />

@@ -72,8 +72,8 @@ export type SortingControlsProps = {
   sortBy: SortOptions;
 };
 
-export type SortingByttonProps = {
-  sortBy: SortOptions;
-  currentSortBy: SortOptions;
-  onChangeSortBy: (newSort: SortOptions) => void;
+export type SortingButtonProps = {
+  children: React.ReactNode;
+  isActive: boolean;
+  onClick: () => void;
 };
