@@ -3,29 +3,34 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
 import { JobData, JobItem } from "../types";
 
+const fetchJobItems = async (searchText: string) => {
+  const response = await fetch(`${BASE_URL}?search=${searchText}`);
+  if (!response.ok) {
+    const errorData = await response.json();
+
+    throw new Error(errorData.description);
+  }
+
+  const data = await response.json();
+  return data.jobItems as JobItem[];
+};
+
 export function useJobItems(searchText: string) {
-  const [jobItems, setJobItems] = useState<JobItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (!searchText) return;
-
-      setIsLoading(true);
-
-      const response = await fetch(`${BASE_URL}?search=${searchText}`);
-
-      const data = await response.json();
-
-      setIsLoading(false);
-
-      setJobItems(data.jobItems);
+  const { data, isInitialLoading } = useQuery(
+    ["job-items", searchText],
+    async () => (searchText ? await fetchJobItems(searchText) : null),
+    {
+      staleTime: 1000 * 60 * 60, // 1 hour
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!searchText,
+      onError: (error) => {
+        console.error("Error fetching job data:", error);
+      },
     }
+  );
 
-    fetchData();
-  }, [searchText]);
-
-  return { jobItems, isLoading } as const;
+  return { jobItems: data, isLoading: isInitialLoading } as const;
 }
 
 const fetchJobData = async (activeId: number) => {
