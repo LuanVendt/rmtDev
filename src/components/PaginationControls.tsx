@@ -31,11 +31,11 @@ export function PagiationButton({
       <button className={className} onClick={() => onChangePage(direction)}>
         {direction === "previous" ? (
           <>
-            <ArrowLeftIcon /> {previousPageNumber}
+            <ArrowLeftIcon /> Page {previousPageNumber}
           </>
         ) : (
           <>
-            {nextPageNumber} <ArrowRightIcon />
+            Page {nextPageNumber} <ArrowRightIcon />
           </>
         )}
       </button>
