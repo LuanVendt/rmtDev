@@ -93,7 +93,7 @@ function JobMetaInfo({ jobData }: JobMetaInfoProps) {
       <div className="job-info__below-badge">
         <time className="job-info__time">{jobData?.daysAgo}d</time>
 
-        <BookmarkIcon />
+        <BookmarkIcon id={jobData.id} />
       </div>
     </div>
   );

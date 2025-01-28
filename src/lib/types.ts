@@ -50,7 +50,8 @@ type JobDataProps = {
   jobData: JobData | null;
 };
 
-export type JobMetaInfoProps = JobDataProps;
+export type JobMetaInfoProps = { jobData: JobData };
+
 export type JobSummaryProps = JobDataProps;
 export type JobQualificationsProps = JobDataProps;
 export type JobReviewsProps = JobDataProps;
@@ -76,4 +77,8 @@ export type SortingButtonProps = {
   children: React.ReactNode;
   isActive: boolean;
   onClick: () => void;
+};
+
+export type BookmarkIconProps = {
+  id: number;
 };

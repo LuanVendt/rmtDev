@@ -28,7 +28,6 @@ function App() {
   const { jobItems, isLoading } = useJobItems(debouncedSearchText);
   const { currentPage, onChangePage, setCurrentPage } = usePagination();
   const totalNumberOfResults = jobItems?.length || 0;
-
   const [sortBy, setSortBy] = useState<SortOptions>("relevant");
 
   const { jobItemsSorted, handleChangeSortBy } = useSortInfo(
