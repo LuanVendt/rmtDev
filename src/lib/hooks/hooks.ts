@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
-import { JobItem } from "../types";
+import { JobData, JobItem } from "../types";
 
 export function useJobItems(searchText: string) {
   const [jobItems, setJobItems] = useState<JobItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const totalNumberOfResults = jobItems.length;
-  const jobItemsSliced = jobItems.slice(0, 7);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,29 +25,37 @@ export function useJobItems(searchText: string) {
     fetchData();
   }, [searchText]);
 
-  return { jobItemsSliced, isLoading, totalNumberOfResults } as const;
+  return { jobItems, isLoading } as const;
 }
 
+const fetchJobData = async (activeId: number) => {
+  const response = await fetch(`${BASE_URL}/${activeId}`);
+  if (!response.ok) {
+    const errorData = await response.json();
+
+    throw new Error(errorData.description);
+  }
+
+  const data = await response.json();
+  return data.jobItem as JobData;
+};
+
 export function useJobData(activeId: number | null) {
-  const { data, isLoading } = useQuery(
+  const { data, isInitialLoading } = useQuery(
     ["job-item", activeId],
-    async () => {
-      const response = await fetch(`${BASE_URL}/${activeId}`);
-
-      const data = await response.json();
-
-      return data.jobItem;
-    },
+    async () => (activeId ? await fetchJobData(activeId) : null),
     {
       staleTime: 1000 * 60 * 60, // 1 hour
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!activeId,
-      onError: () => {},
+      onError: (error) => {
+        console.error("Error fetching job data:", error);
+      },
     }
   );
 
-  return { jobData: data, isJobDataLoading: isLoading } as const;
+  return { jobData: data, isJobDataLoading: isInitialLoading } as const;
 }
 
 export function useActiveId() {
