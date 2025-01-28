@@ -59,3 +59,12 @@ export type JobImageProps = JobDataProps;
 export type JobInfoProps = {
   children: React.ReactNode;
 };
+
+export type PaginateDirection = "next" | "previous";
+
+export type PaginationButtonProps = {
+  direction: PaginateDirection;
+  currentPage: number;
+  totalPages: number;
+  onChangePage: (direction: PaginateDirection) => void;
+};

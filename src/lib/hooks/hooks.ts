@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
-import { JobData, JobItem } from "../types";
+import { JobData, JobItem, PaginateDirection } from "../types";
 import { handleErrors } from "../utils";
 
 const fetchJobItems = async (searchText: string) => {
@@ -98,4 +98,24 @@ export function useDebounce<T>(value: T, delay = 1000) {
   }, [value, delay]);
 
   return debouncedValue;
+}
+
+export function usePagination() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleChangePage = (
+    direction: PaginateDirection,
+    totalPages: number
+  ) => {
+    setCurrentPage((prev) => {
+      if (direction === "next" && prev < totalPages) {
+        return prev + 1;
+      } else if (direction === "previous" && prev > 1) {
+        return prev - 1;
+      }
+      return prev; // Retorna o estado atual se não for possível mudar a página
+    });
+  };
+
+  return { currentPage, onChangePage: handleChangePage } as const;
 }
