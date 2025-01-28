@@ -28,7 +28,13 @@ export function PagiationButton({
 
   return (
     <>
-      <button className={className} onClick={() => onChangePage(direction)}>
+      <button
+        className={className}
+        onClick={(e) => {
+          onChangePage(direction);
+          e.currentTarget.blur();
+        }}
+      >
         {direction === "previous" ? (
           <>
             <ArrowLeftIcon /> Page {previousPageNumber}
