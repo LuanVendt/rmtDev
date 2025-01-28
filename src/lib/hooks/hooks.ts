@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../constants";
 import { JobData, JobItem } from "../types";
+import { handleErrors } from "../utils";
 
 const fetchJobItems = async (searchText: string) => {
   const response = await fetch(`${BASE_URL}?search=${searchText}`);
@@ -24,9 +25,7 @@ export function useJobItems(searchText: string) {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!searchText,
-      onError: (error) => {
-        console.error("Error fetching job data:", error);
-      },
+      onError: handleErrors,
     }
   );
 
@@ -54,9 +53,7 @@ export function useJobData(activeId: number | null) {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!activeId,
-      onError: (error) => {
-        console.error("Error fetching job data:", error);
-      },
+      onError: handleErrors,
     }
   );
 

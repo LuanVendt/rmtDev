@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { useDebounce, useJobItems } from "../lib/hooks/hooks";
 import Background from "./Background";
 import BookmarksButton from "./BookmarksButton";
@@ -51,6 +52,8 @@ function App() {
       </Container>
 
       <Footer />
+
+      <Toaster position="bottom-right" />
     </>
   );
 }
