@@ -20,7 +20,7 @@ export function getPaginationInfo(
 
   const jobItemsSliced = jobItemsSorted
     ? jobItemsSorted?.slice(startIndex, endIndex) || []
-    : jobItems?.slice(startIndex, endIndex) || [];
+    : [...(jobItems || [])].slice(startIndex, endIndex);
 
   return {
     totalPages,
@@ -34,11 +34,10 @@ export function getSortInfo(
   jobItems: JobItem[] | null | undefined,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 ) {
-  const jobItemsSorted =
-    jobItems?.sort((a, b) => {
-      if (sortBy === "relevant") return b.relevanceScore - a.relevanceScore;
-      else return a.daysAgo - b.daysAgo;
-    }) || [];
+  const jobItemsSorted = [...(jobItems || [])].sort((a, b) => {
+    if (sortBy === "relevant") return b.relevanceScore - a.relevanceScore;
+    else return a.daysAgo - b.daysAgo;
+  });
 
   const handleChangeSortBy = (newSort: SortOptions) => {
     setCurrentPage(1);
