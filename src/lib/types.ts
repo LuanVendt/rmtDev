@@ -71,3 +71,9 @@ export type SortingControlsProps = {
   onChangeSortBy: (newSort: SortOptions) => void;
   sortBy: SortOptions;
 };
+
+export type SortingByttonProps = {
+  sortBy: SortOptions;
+  currentSortBy: SortOptions;
+  onChangeSortBy: (newSort: SortOptions) => void;
+};

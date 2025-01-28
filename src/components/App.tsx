@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { useDebounce, useJobItems, usePagination } from "../lib/hooks/hooks";
+import {
+  useDebounce,
+  useJobItems,
+  usePagination,
+  usePaginationInfo,
+  useSortInfo,
+} from "../lib/hooks/hooks";
 import { SortOptions } from "../lib/types";
-import { getPaginationInfo, getSortInfo } from "../lib/utils";
 import Background from "./Background";
 import BookmarksButton from "./BookmarksButton";
 import Container from "./Container";
@@ -15,25 +20,25 @@ import PaginationControls, { PagiationButton } from "./PaginationControls";
 import ResultsCount from "./ResultsCount";
 import SearchForm from "./SearchForm";
 import { Sidebar, SidebarTop } from "./Sidebar";
-import SortingControls from "./SortingControls";
+import SortingControls, { SortingButton } from "./SortingControls";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 500);
   const { jobItems, isLoading } = useJobItems(debouncedSearchText);
   const { currentPage, onChangePage, setCurrentPage } = usePagination();
-
   const totalNumberOfResults = jobItems?.length || 0;
 
   const [sortBy, setSortBy] = useState<SortOptions>("relevant");
-  const { jobItemsSorted, handleChangeSortBy } = getSortInfo(
+
+  const { jobItemsSorted, handleChangeSortBy } = useSortInfo(
     sortBy,
     setSortBy,
     jobItems,
     setCurrentPage
   );
 
-  const { totalPages, jobItemsSliced } = getPaginationInfo(
+  const { totalPages, jobItemsSliced } = usePaginationInfo(
     jobItems,
     totalNumberOfResults,
     currentPage,
@@ -57,10 +62,19 @@ function App() {
         <Sidebar>
           <SidebarTop>
             <ResultsCount count={totalNumberOfResults} />
-            <SortingControls
-              onChangeSortBy={handleChangeSortBy}
-              sortBy={sortBy}
-            />
+
+            <SortingControls>
+              <SortingButton
+                sortBy="relevant"
+                currentSortBy={sortBy}
+                onChangeSortBy={handleChangeSortBy}
+              />
+              <SortingButton
+                sortBy="recent"
+                currentSortBy={sortBy}
+                onChangeSortBy={handleChangeSortBy}
+              />
+            </SortingControls>
           </SidebarTop>
 
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />

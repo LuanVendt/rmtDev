@@ -1,30 +1,27 @@
-import { SortingControlsProps } from "../lib/types";
+import { SortingByttonProps } from "../lib/types";
+import { capitalizeWords } from "../lib/utils";
 
 export default function SortingControls({
-  onChangeSortBy,
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <section className="sorting">{children}</section>;
+}
+
+export function SortingButton({
   sortBy,
-}: SortingControlsProps) {
+  currentSortBy,
+  onChangeSortBy,
+}: SortingByttonProps) {
+  const formatedSortBy = capitalizeWords(sortBy);
+
+  const className = `sorting__button ${
+    sortBy === currentSortBy ? "sorting__button--active" : ""
+  }`;
   return (
-    <section className="sorting">
-      <i className="fa-solid fa-arrow-down-short-wide"></i>
-
-      <button
-        onClick={() => onChangeSortBy("relevant")}
-        className={`sorting__button sorting__button--relevant ${
-          sortBy === "relevant" ? "sorting__button--active" : ""
-        }`}
-      >
-        Relevant
-      </button>
-
-      <button
-        onClick={() => onChangeSortBy("recent")}
-        className={`sorting__button sorting__button--recent ${
-          sortBy === "recent" ? "sorting__button--active" : ""
-        }`}
-      >
-        Recent
-      </button>
-    </section>
+    <button onClick={() => onChangeSortBy(sortBy)} className={className}>
+      {formatedSortBy}
+    </button>
   );
 }
