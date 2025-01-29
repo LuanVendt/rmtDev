@@ -82,3 +82,8 @@ export type SortingButtonProps = {
 export type BookmarkIconProps = {
   id: number;
 };
+
+export type TBookmarksContext = {
+  bookmarkedIds: number[];
+  handleToggleBookmark: (id: number) => void;
+}

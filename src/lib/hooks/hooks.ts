@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { BookmarksContext } from "../../contexts/BookmarksContextProvider";
 import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
 import { JobData, JobItem, PaginateDirection, SortOptions } from "../types";
 import { handleErrors } from "../utils";
@@ -164,4 +165,27 @@ export function useSortInfo(
     jobItemsSorted,
     handleChangeSortBy,
   } as const;
+}
+
+export function useLocalStorage<T>(key: string, initialValue: T) {
+  const [value, setValue] = useState<T>(() =>
+    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue))
+  );
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue] as const;
+}
+
+export function useBookmarksContext() {
+  const context = useContext(BookmarksContext);
+
+  if (!context)
+    throw new Error(
+      "useBookmarks must be used within a BookmarksContextProvider"
+    );
+
+  return context;
 }
