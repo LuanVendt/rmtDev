@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import {
   useDebounce,
-  useJobItems,
   usePagination,
   usePaginationInfo,
+  useSearchQuery,
   useSortInfo,
 } from "../lib/hooks/hooks";
 import { SortOptions } from "../lib/types";
@@ -25,7 +25,7 @@ import SortingControls from "./SortingControls";
 function App() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 500);
-  const { jobItems, isLoading } = useJobItems(debouncedSearchText);
+  const { jobItems, isLoading } = useSearchQuery(debouncedSearchText);
   const { currentPage, onChangePage, setCurrentPage } = usePagination();
   const totalNumberOfResults = jobItems?.length || 0;
   const [sortBy, setSortBy] = useState<SortOptions>("relevant");

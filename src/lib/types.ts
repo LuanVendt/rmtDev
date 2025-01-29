@@ -85,5 +85,7 @@ export type BookmarkIconProps = {
 
 export type TBookmarksContext = {
   bookmarkedIds: number[];
+  bookmarkedJobItems: JobData[];
+  isLoading: boolean;
   handleToggleBookmark: (id: number) => void;
-}
+};

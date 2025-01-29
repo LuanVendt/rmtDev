@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { BookmarksContext } from "../../contexts/BookmarksContextProvider";
 import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
@@ -17,7 +17,7 @@ const fetchJobItems = async (searchText: string) => {
   return data.jobItems as JobItem[];
 };
 
-export function useJobItems(searchText: string) {
+export function useSearchQuery(searchText: string) {
   const { data, isInitialLoading } = useQuery(
     ["job-items", searchText],
     async () => (searchText ? await fetchJobItems(searchText) : null),
@@ -31,6 +31,28 @@ export function useJobItems(searchText: string) {
   );
 
   return { jobItems: data, isLoading: isInitialLoading } as const;
+}
+
+export function useJobItems(ids: number[]) {
+  const results = useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ["job-item", id],
+      queryFn: () => fetchJobData(id),
+      staleTime: 1000 * 60 * 60, // 1 hour
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!id,
+      onError: handleErrors,
+    })),
+  });
+
+  const bookmarkedJobItems = results
+    .map((result) => result.data)
+    .filter((jobItem) => jobItem !== undefined);
+
+  const isLoading = results.some((result) => result.isLoading);
+
+  return { bookmarkedJobItems, isLoading } as const;
 }
 
 const fetchJobData = async (activeId: number) => {
