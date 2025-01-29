@@ -89,3 +89,7 @@ export type TBookmarksContext = {
   isLoading: boolean;
   handleToggleBookmark: (id: number) => void;
 };
+
+export type BookmarksPopOverProps = {
+  isOpen: boolean;
+};

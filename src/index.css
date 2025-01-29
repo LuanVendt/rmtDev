@@ -316,7 +316,7 @@ body::-webkit-scrollbar {
   transform: translateX(-50%);
   transform-origin: left;
   transition: all 0.2s;
-  position: fixed;
+  position: absolute;
   left: 50%;
   top: 82px;
 }
