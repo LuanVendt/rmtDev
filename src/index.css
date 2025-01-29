@@ -281,9 +281,9 @@ body::-webkit-scrollbar {
   flex: 1;
 }
 
-.bookmarks-popover {
+/* .bookmarks-popover {
   /* visibility: hidden; */
-  /* opacity: 0; */
+/* opacity: 0; 
   background-color: #fff;
   min-height: 76px;
   min-width: 340px;
@@ -295,8 +295,27 @@ body::-webkit-scrollbar {
   transform: translateX(-50%);
   transform-origin: left;
   transition: all 0.2s;
-  /* pointer-events: none; */
+  /* pointer-events: none; 
 
+  position: fixed;
+  left: 50%;
+  top: 82px;
+} */
+
+.bookmarks-popover {
+  background-color: #fff;
+  min-height: 76px; /* Altura mínima */
+  min-width: 340px;
+  width: 340px;
+  max-height: 400px; /* Define um tamanho máximo */
+  border-radius: 4px;
+  overflow-y: auto; /* Adiciona barra de rolagem caso o conteúdo ultrapasse */
+  overflow-x: hidden; /* Evita barra de rolagem horizontal */
+  z-index: 10;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+  transform: translateX(-50%);
+  transform-origin: left;
+  transition: all 0.2s;
   position: fixed;
   left: 50%;
   top: 82px;
