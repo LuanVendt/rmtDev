@@ -1,5 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
+import { ActiveIdContext } from "../../contexts/ActiveIdContextProvider";
 import { BookmarksContext } from "../../contexts/BookmarksContextProvider";
 import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
 import { JobData, JobItem, PaginateDirection, SortOptions } from "../types";
@@ -103,7 +104,7 @@ export function useActiveId() {
 }
 
 export function useActiveJobData() {
-  const activeId = useActiveId();
+  const { activeId } = useActiveIdContext();
   const { jobData, isJobDataLoading } = useJobData(activeId);
 
   return { jobData, isJobDataLoading } as const;
@@ -229,4 +230,15 @@ export function useOnClickOutside(
 
     return () => document.removeEventListener("click", handleClick);
   }, [refs, handler]);
+}
+
+export function useActiveIdContext() {
+  const context = useContext(ActiveIdContext);
+
+  if (!context)
+    throw new Error(
+      "useActiveId must be used within a ActiveIdContextProvider"
+    );
+
+  return context;
 }

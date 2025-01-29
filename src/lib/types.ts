@@ -93,3 +93,7 @@ export type TBookmarksContext = {
 export type BookmarksPopOverProps = {
   isOpen: boolean;
 };
+
+export type TActiveIdContext = {
+  activeId: number | null;
+};
