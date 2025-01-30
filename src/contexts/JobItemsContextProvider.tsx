@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import {
   usePagination,
   usePaginationInfo,
@@ -38,16 +38,28 @@ export default function JobItemsContextProvider({
 
   return (
     <JobItemsContext.Provider
-      value={{
-        jobItems: jobItemsSliced,
-        isLoading,
-        totalNumberOfResults,
-        currentPage,
-        totalPages,
-        sortBy,
-        onChangePage,
-        handleChangeSortBy,
-      }}
+      value={useMemo(
+        () => ({
+          jobItems: jobItemsSliced,
+          isLoading,
+          totalNumberOfResults,
+          currentPage,
+          totalPages,
+          sortBy,
+          onChangePage,
+          handleChangeSortBy,
+        }),
+        [
+          jobItemsSliced,
+          isLoading,
+          totalNumberOfResults,
+          currentPage,
+          totalPages,
+          sortBy,
+          onChangePage,
+          handleChangeSortBy,
+        ]
+      )}
     >
       {children}
     </JobItemsContext.Provider>
