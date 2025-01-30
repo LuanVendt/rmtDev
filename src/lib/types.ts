@@ -38,7 +38,7 @@ export type ContainerProps = {
 
 export type SearchFormProps = {
   searchText: string;
-  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  onChangeSearchText: (newSearchText: string) => void;
 };
 
 export type JobItemContentProps = {
@@ -62,8 +62,7 @@ export type PaginateDirection = "next" | "previous";
 export type PaginationButtonProps = {
   direction: PaginateDirection;
   currentPage: number;
-  totalPages: number;
-  onChangePage: (direction: PaginateDirection) => void;
+  onChangePage: () => void;
 };
 
 export type SortOptions = "relevant" | "recent";
@@ -96,4 +95,21 @@ export type BookmarksPopOverProps = {
 
 export type TActiveIdContext = {
   activeId: number | null;
+};
+
+export type TSearchTextContext = {
+  searchText: string;
+  debouncedSearchText: string;
+  handleChangeSearchText: (newSearchText: string) => void;
+};
+
+export type TJobItemsContext = {
+  jobItems: JobItem[];
+  isLoading: boolean;
+  totalNumberOfResults: number;
+  currentPage: number;
+  totalPages: number;
+  sortBy: SortOptions;
+  onChangePage: (direction: PaginateDirection, totalPages: number) => void;
+  handleChangeSortBy: (newSort: SortOptions) => void;
 };

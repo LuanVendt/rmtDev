@@ -1,49 +1,19 @@
-import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import {
-  useDebounce,
-  usePagination,
-  usePaginationInfo,
-  useSearchQuery,
-  useSortInfo,
-} from "../lib/hooks/hooks";
-import { SortOptions } from "../lib/types";
 import Background from "./Background";
 import BookmarksButton from "./BookmarksButton";
 import Container from "./Container";
 import Footer from "./Footer";
 import { Header, HeaderTop } from "./Header";
 import JobItemContent from "./JobItemContent";
-import JobList from "./JobList";
+import JobListSearch from "./JobListSearch";
 import Logo from "./Logo";
-import PaginationControls, { PagiationButton } from "./PaginationControls";
+import PaginationControls from "./PaginationControls";
 import ResultsCount from "./ResultsCount";
 import SearchForm from "./SearchForm";
 import { Sidebar, SidebarTop } from "./Sidebar";
 import SortingControls from "./SortingControls";
 
 function App() {
-  const [searchText, setSearchText] = useState("");
-  const debouncedSearchText = useDebounce(searchText, 500);
-  const { jobItems, isLoading } = useSearchQuery(debouncedSearchText);
-  const { currentPage, onChangePage, setCurrentPage } = usePagination();
-  const totalNumberOfResults = jobItems?.length || 0;
-  const [sortBy, setSortBy] = useState<SortOptions>("relevant");
-
-  const { jobItemsSorted, handleChangeSortBy } = useSortInfo(
-    sortBy,
-    setSortBy,
-    jobItems,
-    setCurrentPage
-  );
-
-  const { totalPages, jobItemsSliced } = usePaginationInfo(
-    jobItems,
-    totalNumberOfResults,
-    currentPage,
-    jobItemsSorted
-  );
-
   return (
     <>
       <Background />
@@ -54,37 +24,20 @@ function App() {
           <BookmarksButton />
         </HeaderTop>
 
-        <SearchForm searchText={searchText} setSearchText={setSearchText} />
+        <SearchForm />
       </Header>
 
       <Container>
         <Sidebar>
           <SidebarTop>
-            <ResultsCount count={totalNumberOfResults} />
+            <ResultsCount />
 
-            <SortingControls
-              sortBy={sortBy}
-              onChangeSortBy={handleChangeSortBy}
-            />
+            <SortingControls />
           </SidebarTop>
 
-          <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
+          <JobListSearch />
 
-          <PaginationControls>
-            <PagiationButton
-              direction="previous"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onChangePage={(direction) => onChangePage(direction, totalPages)}
-            />
-
-            <PagiationButton
-              direction="next"
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onChangePage={(direction) => onChangePage(direction, totalPages)}
-            />
-          </PaginationControls>
+          <PaginationControls />
         </Sidebar>
 
         <JobItemContent />

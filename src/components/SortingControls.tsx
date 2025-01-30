@@ -1,9 +1,9 @@
-import { SortingButtonProps, SortingControlsProps } from "../lib/types";
+import { useJobItemsContext } from "../lib/hooks/hooks";
+import { SortingButtonProps } from "../lib/types";
 
-export default function SortingControls({
-  sortBy,
-  onChangeSortBy,
-}: SortingControlsProps) {
+export default function SortingControls() {
+  const { sortBy, handleChangeSortBy: onChangeSortBy } = useJobItemsContext();
+
   return (
     <section className="sorting">
       <i className="fa-solid fa-arrow-down-short-wide"></i>

@@ -2,6 +2,8 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { ActiveIdContext } from "../../contexts/ActiveIdContextProvider";
 import { BookmarksContext } from "../../contexts/BookmarksContextProvider";
+import { JobItemsContext } from "../../contexts/JobItemsContextProvider";
+import { SearchTextContext } from "../../contexts/SearchTextContextProvider";
 import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
 import { JobData, JobItem, PaginateDirection, SortOptions } from "../types";
 import { handleErrors } from "../utils";
@@ -202,17 +204,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   return [value, setValue] as const;
 }
 
-export function useBookmarksContext() {
-  const context = useContext(BookmarksContext);
-
-  if (!context)
-    throw new Error(
-      "useBookmarks must be used within a BookmarksContextProvider"
-    );
-
-  return context;
-}
-
 export function useOnClickOutside(
   refs: React.RefObject<HTMLElement>[],
   handler: () => void
@@ -238,6 +229,39 @@ export function useActiveIdContext() {
   if (!context)
     throw new Error(
       "useActiveId must be used within a ActiveIdContextProvider"
+    );
+
+  return context;
+}
+
+export function useBookmarksContext() {
+  const context = useContext(BookmarksContext);
+
+  if (!context)
+    throw new Error(
+      "useBookmarks must be used within a BookmarksContextProvider"
+    );
+
+  return context;
+}
+
+export function useSearchTextContext() {
+  const context = useContext(SearchTextContext);
+
+  if (!context)
+    throw new Error(
+      "useSearchText must be used within a SearchTextContextProvider"
+    );
+
+  return context;
+}
+
+export function useJobItemsContext() {
+  const context = useContext(JobItemsContext);
+
+  if (!context)
+    throw new Error(
+      "useJobItems must be used within a JobItemsContextProvider"
     );
 
   return context;
