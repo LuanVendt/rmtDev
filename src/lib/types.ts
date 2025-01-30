@@ -28,24 +28,6 @@ export type JobListProps = {
   isLoading: boolean;
 };
 
-export type SidebarProps = {
-  jobItems: JobItem[];
-};
-
-export type ContainerProps = {
-  jobItems: JobItem[];
-};
-
-export type SearchFormProps = {
-  searchText: string;
-  onChangeSearchText: (newSearchText: string) => void;
-};
-
-export type JobItemContentProps = {
-  jobData: JobData | null;
-  isJobDataLoading: boolean;
-};
-
 type JobDataProps = {
   jobData: JobData | null;
 };
@@ -67,11 +49,6 @@ export type PaginationButtonProps = {
 
 export type SortOptions = "relevant" | "recent";
 
-export type SortingControlsProps = {
-  onChangeSortBy: (newSort: SortOptions) => void;
-  sortBy: SortOptions;
-};
-
 export type SortingButtonProps = {
   children: React.ReactNode;
   isActive: boolean;
@@ -87,10 +64,6 @@ export type TBookmarksContext = {
   bookmarkedJobItems: JobData[];
   isLoading: boolean;
   handleToggleBookmark: (id: number) => void;
-};
-
-export type BookmarksPopOverProps = {
-  isOpen: boolean;
 };
 
 export type TActiveIdContext = {
