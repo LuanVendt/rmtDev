@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ActiveIdContext } from "../../contexts/ActiveIdContextProvider";
 import { BookmarksContext } from "../../contexts/BookmarksContextProvider";
 import { JobItemsContext } from "../../contexts/JobItemsContextProvider";
@@ -160,9 +160,13 @@ export function usePaginationInfo(
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
 
-  const jobItemsSliced = jobItemsSorted
-    ? jobItemsSorted?.slice(startIndex, endIndex) || []
-    : [...(jobItems || [])].slice(startIndex, endIndex);
+  const jobItemsSliced = useMemo(
+    () =>
+      jobItemsSorted
+        ? jobItemsSorted?.slice(startIndex, endIndex) || []
+        : [...(jobItems || [])].slice(startIndex, endIndex),
+    [jobItems, jobItemsSorted, startIndex, endIndex]
+  );
 
   return {
     totalPages,
@@ -176,10 +180,14 @@ export function useSortInfo(
   jobItems: JobItem[] | null | undefined,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 ) {
-  const jobItemsSorted = [...(jobItems || [])].sort((a, b) => {
-    if (sortBy === "relevant") return b.relevanceScore - a.relevanceScore;
-    else return a.daysAgo - b.daysAgo;
-  });
+  const jobItemsSorted = useMemo(
+    () =>
+      [...(jobItems || [])].sort((a, b) => {
+        if (sortBy === "relevant") return b.relevanceScore - a.relevanceScore;
+        else return a.daysAgo - b.daysAgo;
+      }),
+    [jobItems, sortBy]
+  );
 
   const handleChangeSortBy = (newSort: SortOptions) => {
     setCurrentPage(1);
